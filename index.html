@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pick n Pay Product</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#fff;
+    max-width:375px;
+    margin:0 auto;
+}
+
+/* TOPO */
+
+.top-bar{
+    height:58px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 10px;
+    background:#fff;
+}
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    color:#333;
+    font-size:12px;
+}
+
+.hamburger{
+    font-size:28px;
+    line-height:22px;
+    margin-bottom:2px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.logo img{
+    width:180px;
+    height:auto;
+    display:block;
+}
+
+.cart{
+    width:42px;
+    height:42px;
+    background:#12395f;
+    border-radius:5px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:white;
+}
+
+.cart-icon{
+    font-size:18px;
+    line-height:16px;
+}
+
+.cart-count{
+    font-size:11px;
+    font-weight:bold;
+}
+
+/* SEARCH */
+
+.search-section{
+    padding:0 8px 10px;
+    background:#fff;
+    box-shadow:0 2px 6px rgba(0,0,0,.15);
+}
+
+.search-box{
+    height:40px;
+    border:1px solid #d8d8d8;
+    border-radius:25px;
+    display:flex;
+    align-items:center;
+    overflow:hidden;
+    background:#fff;
+}
+
+.search-box input{
+    flex:1;
+    border:none;
+    outline:none;
+    padding-left:16px;
+    font-size:15px;
+    color:#777;
+}
+
+.search-btn{
+    width:40px;
+    height:40px;
+    background:#b91f3a;
+    color:#fff;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    cursor:pointer;
+}
+
+/* DELIVERY */
+
+.delivery-row{
+    display:flex;
+    align-items:center;
+    background:#fff;
+    border-bottom:1px solid #e8e8e8;
+    height:62px;
+}
+
+.delivery-box,
+.slot-box{
+    width:50%;
+    padding-left:16px;
+    font-size:12px;
+    color:#222;
+    line-height:18px;
+}
+
+.delivery-box{
+    border-right:1px solid #e6e6e6;
+}
+
+.delivery-box a{
+    color:#111;
+    font-size:14px;
+    font-weight:bold;
+    text-decoration:underline;
+}
+
+.slot-box strong{
+    display:block;
+    font-size:14px;
+    font-weight:bold;
+}
+
+/* BREADCRUMBS */
+
+.breadcrumbs{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:15px 16px;
+    border-bottom:4px solid #d9d9d9;
+    position:relative;
+
+    overflow-x:auto;
+    overflow-y:hidden;
+    white-space:nowrap;
+    scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;
+}
+
+.breadcrumbs::-webkit-scrollbar{
+    display:none;
+}
+
+.breadcrumbs{
+    scrollbar-width:none;
+}
+
+.breadcrumbs a{
+    color:#444;
+    font-size:14px;
+    text-decoration:underline;
+    white-space:nowrap;
+    flex-shrink:0;
+}
+
+.arrow{
+    font-size:24px;
+    color:#444;
+    flex-shrink:0;
+}
+
+/* PRODUTO */
+
+.product-gallery{
+    background:#fff;
+    min-height:360px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-end;
+}
+
+.product-image{
+    width:95%;
+    max-width:340px;
+    display:block;
+    margin-top:35px;
+}
+
+.dots{
+    display:flex;
+    gap:8px;
+    margin:28px 0 16px;
+}
+
+.dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#d8d8d8;
+}
+
+.dot.active{
+    background:#2f6ff3;
+}
+
+.separator{
+    height:1px;
+    background:#ececec;
+}
+
+/* INFO */
+
+.product-info{
+    padding:26px 16px;
+}
+
+.product-title{
+    font-size:25px;
+    line-height:24px;
+    font-weight:700;
+    color:#111;
+}
+
+.brand{
+    display:inline-block;
+    margin-top:20px;
+    color:#3568a8;
+    text-decoration:underline;
+    font-size:14px;
+}
+
+.price{
+    margin-top:58px;
+    font-size:22px;
+    font-weight:700;
+    color:#111;
+}
+
+.product-gallery {
+    width: 100%;
+    background: #fff;
+    overflow: hidden;
+}
+
+.slider-wrapper {
+    width: 100%;
+    overflow: hidden;
+}
+
+.slider {
+    display: flex;
+    width: 400%;
+    transition: transform 0.35s ease;
+    touch-action: pan-y;
+}
+
+.slide {
+    width: 25%;
+    flex: 0 0 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide img {
+    width: 95%;
+    max-width: 340px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+}
+
+.dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 18px 0 16px;
+}
+
+.dot {
+    width: 9px;
+    height: 9px;
+    border: none;
+    border-radius: 50%;
+    background: #d8d8d8;
+    padding: 0;
+    cursor: pointer;
+}
+
+.dot.active {
+    background: #2f6ff3;
+}
+
+.brand{
+    display:block;
+    margin-top:20px;
+    margin-bottom:18px;
+    color:#3568a8;
+    text-decoration:underline;
+    font-size:14px;
+}
+
+.save-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#c8102e;
+    color:#fff;
+
+    font-size:13px;
+    font-weight:700;
+
+    height:26px;
+    padding:0 10px;
+
+    border-radius:6px;
+
+    margin-bottom:45px;
+
+    text-transform:uppercase;
+}
+
+.price-row{
+    display:flex;
+    align-items:flex-end;
+    gap:6px;
+}
+
+.sale-price{
+    color:#e1251b;
+    font-size:32px;
+    font-weight:600;
+    line-height:1;
+}
+
+.old-price{
+    color:#333;
+    font-size:14px;
+    text-decoration:line-through;
+    margin-bottom:5px;
+}
+
+.purchase-section{
+    padding:18px 9px 0;
+    background:#fff;
+}
+
+.add-cart-btn{
+    width:100%;
+    height:48px;
+
+    background:#0f3764;
+    color:#fff;
+
+    text-decoration:none;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:16px;
+    font-weight:700;
+
+    border-radius:28px;
+
+    transition:.2s;
+}
+
+.add-cart-btn:hover{
+    background:#0b2d52;
+}
+
+.add-list-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    margin-top:42px;
+    margin-bottom:20px;
+
+    color:#4d4d4d;
+    font-size:15px;
+}
+
+.add-list-btn{
+    width:28px;
+    height:28px;
+
+    border:none;
+    background:transparent;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+}
+
+.add-list-row span{
+    font-size:15px;
+    font-weight:400;
+}
+
+.product-info-accordion{
+    padding:0 9px 0;
+    background:#fff;
+}
+
+.accordion-header{
+    width:100%;
+    height:58px;
+    border:0;
+    border-bottom:1px solid #dedede;
+    background:#fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    font-size:16px;
+    font-weight:700;
+    color:#111;
+    cursor:pointer;
+}
+
+.accordion-icon{
+    width:36px;
+    height:36px;
+    border:1px solid #dcdcdc;
+    border-radius:50%;
+    background:#fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.chevron{
+    font-size:22px;
+    color:#555;
+    line-height:1;
+}
+
+.accordion-content{
+    display:block;
+    padding-top:22px;
+    overflow:visible;
+}
+
+.accordion-content h3{
+    font-size:16px;
+    font-weight:700;
+    color:#002b55;
+    margin-top:24px;
+    margin-bottom:16px;
+}
+
+.accordion-content h3:first-child{
+    margin-top:0;
+}
+
+.accordion-content p{
+    font-size:18px;
+    line-height:1.55;
+    color:#4c4c4c;
+    margin-bottom:28px;
+}
+
+.accordion-content ul{
+    padding-left:22px;
+    margin-bottom:30px;
+}
+
+.accordion-content li{
+    font-size:18px;
+    line-height:1.55;
+    color:#4c4c4c;
+    margin-bottom:8px;
+}
+
+.product-info-accordion.closed .accordion-content{
+    display:none;
+}
+
+.product-info-accordion.closed .chevron{
+    transform:rotate(180deg);
+}
+
+.product-disclaimer{
+    padding:26px 15px 35px;
+    background:#fff;
+}
+
+.disclaimer-link{
+    color:#2d5ea8;
+    text-decoration:underline;
+    font-size:16px;
+    line-height:1.4;
+}
+
+.footer-section{
+    background:#fff;
+    border-top:1px solid #e5e5e5;
+    padding:48px 18px 40px;
+}
+
+.footer-block{
+    margin-bottom:38px;
+}
+
+.footer-block h4{
+    font-size:15px;
+    font-weight:700;
+    color:#000;
+    margin-bottom:22px;
+}
+
+.footer-block a{
+    display:block;
+    color:#2f3d4a;
+    text-decoration:none;
+    font-size:14px;
+    line-height:1.4;
+    margin-bottom:18px;
+}
+
+.footer-spacing{
+    width:100vw;
+    height:80px;
+
+    background:#f5f5f5;
+
+    border-top:1px solid #e5e5e5;
+    border-bottom:1px solid #e5e5e5;
+
+    margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
+}
+
+
+.footer-copyright{
+    text-align:center;
+    margin-top:40px;
+    margin-bottom:12px;
+}
+
+.footer-copyright p{
+    font-size:11px;
+    color:#000;
+}
+
+.footer-security{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:24px;
+
+    margin-bottom:35px;
+}
+
+.security-logo{
+    height:42px;
+    width:auto;
+    object-fit:contain;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- TOPO -->
+
+<header class="top-bar">
+
+    <div class="menu">
+        <div class="hamburger">☰</div>
+        <span>Menu</span>
+    </div>
+
+    <div class="logo">
+        <img
+        src="https://cdn-prd-02.pnp.co.za/sys-master/images/h7c/hc7/11159969071134/PicknPayLogo.svg"
+        alt="Pick n Pay">
+    </div>
+
+    <div class="cart">
+        <div class="cart-icon">🛒</div>
+        <div class="cart-count">0</div>
+    </div>
+
+</header>
+
+<!-- SEARCH -->
+
+<section class="search-section">
+
+    <div class="search-box">
+
+        <input
+        type="text"
+        placeholder="Search products or brands">
+
+        <div class="search-btn">
+            ⌕
+        </div>
+
+    </div>
+
+</section>
+
+<!-- DELIVERY -->
+
+<section class="delivery-row">
+
+    <div class="delivery-box">
+        Delivery to:<br>
+        <a href="#">Add address</a>
+    </div>
+
+    <div class="slot-box">
+        Slots available from:
+        <strong>As early as today</strong>
+    </div>
+
+</section>
+
+<!-- BREADCRUMBS -->
+
+<nav class="breadcrumbs">
+
+    <a href="#">Home</a>
+
+    <span class="arrow">›</span>
+
+    <a href="#">All Products</a>
+
+    <span class="arrow">›</span>
+
+    <a href="#">Home & Appliances</a>
+
+    <span class="arrow">›</span>
+
+    <a href="#">Appliances</a>
+
+    <span class="arrow">›</span>
+
+    <a href="#">Small Appliances</a>
+
+       <span class="arrow">›</span>
+
+    <a href="#">Microwaves</a>
+
+       <span class="arrow">›</span>
+
+    <a href="#">Russell Hobbs 20L Electronic Mirror Finish Microwave</a>
+
+
+</nav>
+
+<!-- PRODUTO -->
+
+<section class="product-gallery">
+
+    <div class="slider-wrapper">
+
+        <div class="slider" id="productSlider">
+
+            <div class="slide">
+                <img src="img1.png" alt="Product image 1">
+            </div>
+
+            <div class="slide">
+                <img src="img2.png" alt="Product image 2">
+            </div>
+
+            <div class="slide">
+                <img src="img3.png" alt="Product image 3">
+            </div>
+
+            <div class="slide">
+                <img src="img4.png" alt="Product image 4">
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="dots">
+        <button class="dot active" data-index="0"></button>
+        <button class="dot" data-index="1"></button>
+        <button class="dot" data-index="2"></button>
+        <button class="dot" data-index="3"></button>
+    </div>
+
+</section>
+
+<div class="separator"></div>
+
+<!-- INFO -->
+
+<section class="product-info">
+
+    <h1 class="product-title">
+       Russell Hobbs 20L Electronic Microwave<br>
+       & Cordless Stainless Steel Kettle<br>
+
+    </h1>
+
+    <a href="#" class="brand">
+    RUSSELL HOBBS
+</a>
+
+<div class="save-badge">
+    SAVE
+</div>
+
+<div class="price-row">
+    <span class="sale-price">R899.00</span>
+    <span class="old-price">R1,099.00</span>
+</div>
+
+<!-- BUY SECTION -->
+
+<section class="purchase-section">
+
+    <!-- ADD TO CART -->
+
+    <a href="checkout.html"
+       class="add-cart-btn">
+
+        Add to cart
+
+    </a>
+
+    <!-- ADD TO LIST -->
+
+    <div class="add-list-row">
+
+        <button class="add-list-btn">
+
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="5" width="18" height="14" rx="2" stroke="#4A7AC8" stroke-width="1.5"/>
+                <line x1="8" y1="9" x2="18" y2="9" stroke="#4A7AC8" stroke-width="1.5"/>
+                <line x1="8" y1="13" x2="18" y2="13" stroke="#4A7AC8" stroke-width="1.5"/>
+                <line x1="8" y1="17" x2="18" y2="17" stroke="#4A7AC8" stroke-width="1.5"/>
+                <circle cx="5.5" cy="9" r="0.8" fill="#4A7AC8"/>
+                <circle cx="5.5" cy="13" r="0.8" fill="#4A7AC8"/>
+                <circle cx="5.5" cy="17" r="0.8" fill="#4A7AC8"/>
+            </svg>
+
+        </button>
+
+        <span>Add to list</span>
+
+    </div>
+
+</section>
+
+<!-- PRODUCT INFO -->
+
+<!-- PRODUCT INFO -->
+
+<section class="product-info-accordion">
+
+    <button class="accordion-header" type="button">
+        <span>Product Info</span>
+
+        <span class="accordion-icon">
+            <span class="chevron">⌃</span>
+        </span>
+    </button>
+
+    <div class="accordion-content">
+
+        <h3>Description</h3>
+
+        <p>
+            With 8 auto-cook menus and programmable multi-stage cooking, the Russell Hobbs 20L Electronic Mirror Microwave helps you to make meals in minutes – from popcorn to pizza, it does it all. This revolutionary microwave has a smart-info function and a child lock safety feature, safety and convenience have never been so easy.
+        </p>
+
+        <p>
+            Model Number: RHEM21L<br>
+            Capacity: 20000ml<br>
+            Output Power: 700W<br>
+            Wattage: 700W<br>
+            Voltage: 230V<br>
+            Material: Glass, Enamel<br>
+            Colour: Silver<br>
+            Warranty: 1 year warranty (Extended warranty available upon registration)
+        </p>
+
+        <p>
+            Model Number: RHEM21L<br>
+            Wattage: 700W<br>
+            Voltage: 230V<br>
+            Material: Glass, Enamel<br>
+            Colour: Silver
+        </p>
+
+        <h3>SKU</h3>
+        <p>000000000000662758_EA</p>
+
+        <h3>Features</h3>
+
+        <ul>
+            <li>20L capacity</li>
+            <li>Digital LED display with clock</li>
+            <li>Power output: 700W</li>
+            <li>11 Power levels</li>
+            <li>Programmable multi-stage cooking</li>
+            <li>8 Auto menus: cook, defrost, popcorn, potato, frozen vegetable, beverage, dinner plate, pizza</li>
+            <li>99 Minute cooking timer with end signal</li>
+            <li>Defrost by time or weight</li>
+            <li>With quick start and kitchen timer functions</li>
+            <li>Smart Info function</li>
+            <li>Elegant mirror finish front</li>
+            <li>255mm glass turntable diameter</li>
+            <li>User friendly control panel</li>
+            <li>Easy to use push button door</li>
+            <li>Enamel interior for easy cleaning</li>
+            <li>With child lock safety feature</li>
+        </ul>
+
+        <h3>Barcode</h3>
+        <p>6002322012208</p>
+
+        <h3>Usage</h3>
+
+        <p>
+            Microwave Cooking Principles: 1. Arrange food carefully. Place thickest areas towards outside of dish. 2. Watch cooking time. Cook for the shortest amount of time indicated and add more as needed. Food severely overcooked can smoke or ignite. 3. Cover foods while cooking. Covers prevent spattering and help foods to cook evenly. 4. Turn foods over once during microwave cooking to speed cooking of such foods as chicken and hamburgers. Large items like roasts must be turned over at least once. 5. Rearrange foods such as meatballs halfway through cooking both from top to bottom and from the center of the dish to the outside.
+        </p>
+
+        <h3>Warnings</h3>
+
+        <p>
+            For domestic use only. Installation: Make sure that all the packing materials are removed from the inside of the door. Check the oven for any damage, such as a misaligned or bent door, damaged door seals and sealing surface, broken or loose door hinges and latches and dents inside the cavity or on the door. If there is any damage, do not operate the oven and contact qualified service personnel.
+        </p>
+
+        <p>
+            This microwave oven must be placed on a flat, stable surface to hold its weight and the heaviest food likely to be cooked in the oven. Do not place the oven where heat, moisture, or high humidity are generated, or near combustible materials.
+        </p>
+
+        <p>
+            For correct operation, the oven must have sufficient airflow. Allow 20cm of space above the oven, 30cm at back and 20cm at both sides. Do not cover or block any openings on the appliance. Do not remove feet.
+        </p>
+
+        <p>
+            Do not operate the oven without a glass tray, roller support, and shaft in their proper positions. Make sure that the power supply cord is undamaged and does not run under the oven or over any hot or sharp surface.
+        </p>
+
+        <p>
+            The socket must be readily accessible so that it can be easily unplugged in an emergency. Blocking the intake and/or outlet openings can damage the oven. Remove any protective film found on the microwave cabinet surface.
+        </p>
+
+        <p>
+            Do not remove the light brown Mica cover that is attached to the oven cavity to protect the magnetron. Never place the glass tray upside down. The glass tray should never be restricted. Both glass tray and turntable ring assembly must always be used during cooking.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- DISCLAIMER FORA DO PRODUCT INFO -->
+
+<section class="product-disclaimer">
+    <a href="#" class="disclaimer-link">
+        Please read our full disclaimer here.
+    </a>
+</section>
+
+<!-- FOOTER -->
+
+<div class="footer-spacing"></div>
+
+<footer class="footer-section">
+
+    <div class="footer-block">
+        <h4>Help & Contact</h4>
+        <a href="#">FAQs</a>
+        <a href="#">Terms and Conditions</a>
+        <a href="#">Consumer Protection Act</a>
+        <a href="#">Help & Contact</a>
+    </div>
+
+    <div class="footer-block">
+        <h4>International Customers</h4>
+        <a href="tel:+27210031600">Call +27 21 003 1600</a>
+    </div>
+
+    <div class="footer-block">
+        <h4>Company</h4>
+        <a href="#">Careers</a>
+        <a href="#">About Pick n Pay</a>
+        <a href="#">People & Planet</a>
+        <a href="#">Money & Mobile</a>
+        <a href="#">Smart Shopper</a>
+        <a href="#">Pick n Pay Franchise</a>
+    </div>
+
+   <!-- SERVICES & WEBSITES -->
+
+<div class="footer-block">
+
+    <h4>Services & Websites</h4>
+
+    <a href="#">PnP Home</a>
+
+    <a href="#">PnP Clothing</a>
+
+    <a href="#">Boxer Stores</a>
+
+    <a href="#">Investor Relations</a>
+
+    <a href="#">PnP Store Account</a>
+
+    <a href="#">Become A Supplier</a>
+
+    <a href="#">Feed the nation</a>
+
+</div>
+
+<!-- USEFUL INFORMATION -->
+
+<div class="footer-block">
+
+    <h4>Useful Information</h4>
+
+    <a href="#">Scams</a>
+
+    <a href="#">Privacy Portal</a>
+
+    <a href="#">Refunds and Returns</a>
+
+    <a href="#">Customer Communication</a>
+
+</div>
+
+<!-- CONSUMER PROTECTION ACT -->
+
+<div class="footer-block">
+
+    <h4>Consumer Protection Act</h4>
+
+    <a href="#">Copyright - Intellectual Property</a>
+
+</div>
+
+<!-- FAQS -->
+
+<div class="footer-block">
+
+    <h4>FAQs</h4>
+
+    <a href="#">Store Locator</a>
+
+</div>
+<!-- APPS & NEWS -->
+
+<div class="footer-block">
+
+    <h4>Apps & News</h4>
+
+    <a href="#">Get the asap! App</a>
+
+    <a href="#">Fresh Crew</a>
+
+    <a href="#">Facebook</a>
+
+    <a href="#">Twitter</a>
+
+    <a href="#">Instagram</a>
+
+    <a href="#">YouTube</a>
+
+</div>
+
+<!-- COPYRIGHT -->
+
+<div class="footer-copyright">
+
+    <p>
+        Copyright © 2025 Pick n Pay All Rights Reserved.
+    </p>
+
+</div>
+
+<!-- SECURITY LOGOS -->
+
+<div class="footer-security">
+
+    <img
+        src="secure-checkout.png"
+        alt="Secure Checkout"
+        class="security-logo">
+
+</div>
+
+</footer>
+
+<script>
+const slider = document.getElementById("productSlider");
+const dots = document.querySelectorAll(".dot");
+const slides = document.querySelectorAll(".slide");
+
+let currentIndex = 0;
+let startX = 0;
+let moveX = 0;
+let isDragging = false;
+
+const totalSlides = slides.length;
+
+function updateSlider() {
+    slider.style.transform = `translateX(-${currentIndex * 25}%)`;
+
+    dots.forEach(dot => dot.classList.remove("active"));
+    dots[currentIndex].classList.add("active");
+}
+
+function nextSlide() {
+    if (currentIndex < totalSlides - 1) {
+        currentIndex++;
+        updateSlider();
+    }
+}
+
+function prevSlide() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        updateSlider();
+    }
+}
+
+/* Dots */
+dots.forEach(dot => {
+    dot.addEventListener("click", () => {
+        currentIndex = Number(dot.dataset.index);
+        updateSlider();
+    });
+});
+
+/* Mobile swipe */
+slider.addEventListener("touchstart", function(e) {
+    startX = e.touches[0].clientX;
+    moveX = startX;
+    isDragging = true;
+}, { passive: true });
+
+slider.addEventListener("touchmove", function(e) {
+    if (!isDragging) return;
+    moveX = e.touches[0].clientX;
+}, { passive: true });
+
+slider.addEventListener("touchend", function() {
+    if (!isDragging) return;
+
+    const diff = startX - moveX;
+
+    if (diff > 40) {
+        nextSlide();
+    } else if (diff < -40) {
+        prevSlide();
+    }
+
+    isDragging = false;
+});
+
+/* Desktop drag */
+slider.addEventListener("mousedown", function(e) {
+    startX = e.clientX;
+    moveX = startX;
+    isDragging = true;
+});
+
+slider.addEventListener("mousemove", function(e) {
+    if (!isDragging) return;
+    moveX = e.clientX;
+});
+
+slider.addEventListener("mouseup", function() {
+    if (!isDragging) return;
+
+    const diff = startX - moveX;
+
+    if (diff > 40) {
+        nextSlide();
+    } else if (diff < -40) {
+        prevSlide();
+    }
+
+    isDragging = false;
+});
+
+slider.addEventListener("mouseleave", function() {
+    isDragging = false;
+});
+
+
+const productInfoAccordion = document.querySelector(".product-info-accordion");
+const productInfoHeader = document.querySelector(".accordion-header");
+
+productInfoHeader.addEventListener("click", () => {
+    productInfoAccordion.classList.toggle("closed");
+});
+
+</script>
+
+</body>
+</html>
