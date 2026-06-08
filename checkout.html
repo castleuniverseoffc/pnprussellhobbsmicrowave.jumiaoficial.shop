@@ -687,82 +687,98 @@ body{
 </div>
 
 <script>
-completePurchase.onclick = () => {
-  const checkoutUrl = "https://app.quorapay.online/pay/72e501e0-80ee-4db6-abd9-a51eab748b32";
+const PAYMENT_URL = "https://app.quorapay.online/pay/72e501e0-80ee-4db6-abd9-a51eab748b32";
 
-  // Pega todos os parâmetros que estão na sua URL (os ?utm_source=...)
-  const params = window.location.search;
+const form = document.getElementById("checkout-form");
+const btnSubmit = document.getElementById("btn-submit");
+const spinner = document.getElementById("spinner");
 
-  if (params) {
-    // Se houver parâmetros, ele junta com o link do checkout
-    // O resultando será: link.com/pay/abc?utm_source=...
-    window.location.href = checkoutUrl + params;
-  } else {
-    // Se não houver nada na URL, ele apenas segue o fluxo
-    window.location.href = checkoutUrl;
+function getCheckoutUrlWithUTMs() {
+  const currentParams = window.location.search;
+
+  if (currentParams && currentParams.length > 1) {
+    return PAYMENT_URL + currentParams;
   }
-};
 
-var form = document.getElementById('checkout-form');
-var btnSubmit = document.getElementById('btn-submit');
-var spinner = document.getElementById('spinner');
-
-function setError(groupId, show){
-  var grp = document.getElementById(groupId);
-  if(!grp) return;
-  if(show) grp.classList.add('has-error');
-  else grp.classList.remove('has-error');
+  return PAYMENT_URL;
 }
 
-function validateEmail(email){
+function setError(groupId, show) {
+  const grp = document.getElementById(groupId);
+  if (!grp) return;
+
+  if (show) {
+    grp.classList.add("has-error");
+  } else {
+    grp.classList.remove("has-error");
+  }
+}
+
+function validateEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-form.addEventListener('submit', function(e){
+form.addEventListener("submit", function(e) {
   e.preventDefault();
 
-  var firstName = document.getElementById('first-name').value.trim();
-  var lastName = document.getElementById('last-name').value.trim();
-  var email = document.getElementById('email').value.trim();
-  var phone = document.getElementById('phone').value.trim();
-  var address = document.getElementById('address').value.trim();
-  var city = document.getElementById('city').value.trim();
-  var province = document.getElementById('province').value;
+  const firstName = document.getElementById("first-name").value.trim();
+  const lastName = document.getElementById("last-name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const city = document.getElementById("city").value.trim();
+  const province = document.getElementById("province").value;
 
-  var valid = true;
+  let valid = true;
 
-  setError('grp-first-name', !firstName); if(!firstName) valid = false;
-  setError('grp-last-name', !lastName); if(!lastName) valid = false;
-  setError('grp-email', !email || !validateEmail(email)); if(!email || !validateEmail(email)) valid = false;
-  setError('grp-phone', !phone); if(!phone) valid = false;
-  setError('grp-address', !address); if(!address) valid = false;
-  setError('grp-city', !city); if(!city) valid = false;
-  setError('grp-province', !province); if(!province) valid = false;
+  setError("grp-first-name", !firstName);
+  if (!firstName) valid = false;
 
-  if(!valid){
-    var firstErr = form.querySelector('.has-error input, .has-error select');
-    if(firstErr) firstErr.focus();
+  setError("grp-last-name", !lastName);
+  if (!lastName) valid = false;
+
+  setError("grp-email", !email || !validateEmail(email));
+  if (!email || !validateEmail(email)) valid = false;
+
+  setError("grp-phone", !phone);
+  if (!phone) valid = false;
+
+  setError("grp-address", !address);
+  if (!address) valid = false;
+
+  setError("grp-city", !city);
+  if (!city) valid = false;
+
+  setError("grp-province", !province);
+  if (!province) valid = false;
+
+  if (!valid) {
+    const firstErr = form.querySelector(".has-error input, .has-error select");
+    if (firstErr) firstErr.focus();
     return;
   }
 
   btnSubmit.disabled = true;
-  document.querySelector('.btn-text').textContent = 'Redirecting...';
-  document.querySelector('.btn-submit svg').style.display = 'none';
-  spinner.style.display = 'block';
+  document.querySelector(".btn-text").textContent = "Redirecting...";
+  document.querySelector(".btn-submit svg").style.display = "none";
+  spinner.style.display = "block";
 
-  sessionStorage.setItem('delivery_name', firstName + ' ' + lastName);
-  sessionStorage.setItem('delivery_phone', phone);
-  sessionStorage.setItem('delivery_address', address + ', ' + city + ', ' + province + ', South Africa');
+  sessionStorage.setItem("delivery_name", firstName + " " + lastName);
+  sessionStorage.setItem("delivery_phone", phone);
+  sessionStorage.setItem(
+    "delivery_address",
+    address + ", " + city + ", " + province + ", South Africa"
+  );
 
-  setTimeout(function(){
-    window.location.href = PAYMENT_URL;
+  setTimeout(function() {
+    window.location.href = getCheckoutUrlWithUTMs();
   }, 800);
 });
 
-form.querySelectorAll('input, select').forEach(function(el){
-  el.addEventListener('input', function(){
-    var grp = el.closest('.form-group');
-    if(grp) grp.classList.remove('has-error');
+form.querySelectorAll("input, select").forEach(function(el) {
+  el.addEventListener("input", function() {
+    const grp = el.closest(".form-group");
+    if (grp) grp.classList.remove("has-error");
   });
 });
 </script>
